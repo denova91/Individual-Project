@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сравнительный анализ медных и оптических линий связи</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 0;
+        }
+
+        .section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section h2 i {
+            color: var(--secondary);
+        }
+
+        .section h3 {
+            color: var(--dark);
+            margin: 25px 0 15px;
+            padding-left: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .highlight {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid var(--secondary);
+            margin: 20px 0;
+        }
+
+        .analogy {
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid var(--accent);
+        }
+
+        .analogy h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Tables */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+            text-align: left;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .comparison-table tr:hover {
+            background-color: #e8f4fc;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .copper-badge, .fiber-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .copper-badge {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .fiber-badge {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        /* Comparison Cards */
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border-top: 5px solid;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .card.copper {
+            border-color: var(--warning);
+        }
+
+        .card.fiber {
+            border-color: var(--success);
+        }
+
+        .card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .card ul {
+            list-style-position: inside;
+            margin-left: 10px;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+
+        /* Visualization */
+        .visualization {
+            background: linear-gradient(to right, #f8f9fa, #e8f4fc);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .fiber-structure {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .fiber-part {
+            text-align: center;
+            max-width: 200px;
+        }
+
+        .core, .cladding, .coating {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .core {
+            background: radial-gradient(circle at 30% 30%, #e74c3c, #c0392b);
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .cladding {
+            background: radial-gradient(circle at 30% 30%, #3498db, #2980b9);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .coating {
+            background: radial-gradient(circle at 30% 30%, #2ecc71, #27ae60);
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.3);
+        }
+
+        /* Sources */
+        .sources-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .sources-list li {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            color: #95a5a6;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--secondary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+            
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+                width: 100%;
+                text-align: center;
+                margin-top: 15px;
+            }
+            
+            .nav-links.active {
+                display: block;
+            }
+            
+            .nav-links li {
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 50px 0;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-satellite-dish"></i>
+                <span>Сравнительный анализ</span>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#introduction"><i class="fas fa-home"></i> Введение</a></li>
+                    <li><a href="#copper"><i class="fas fa-bolt"></i> Медь</a></li>
+                    <li><a href="#fiber"><i class="fas fa-wave-square"></i> Оптика</a></li>
+                    <li><a href="#comparison"><i class="fas fa-balance-scale"></i> Сравнение</a></li>
+                    <li><a href="#conclusion"><i class="fas fa-chart-line"></i> Заключение</a></li>
+                    <li><a href="#sources"><i class="fas fa-book"></i> Источники</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Сравнительный анализ медных и оптических линий связи</h1>
+            <p>Глубокое исследование физических принципов, технических характеристик и областей применения двух фундаментальных технологий передачи данных</p>
+            <a href="#introduction" class="cta-button">Начать изучение</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Introduction -->
+        <section id="introduction" class="section">
+            <h2><i class="fas fa-home"></i> Введение</h2>
+            <p>Эволюция проводных сетей привела к формированию двух фундаментально различных, но взаимодополняющих технологий передачи данных, основанных либо на движении электронов в металле, либо на движении фотонов в стекле. Эти технологии — медные и оптические линии связи — составляют основу современной цифровой инфраструктуры.</p>
+            <p>Понимание их физических принципов, эксплуатационных характеристик и экономических моделей является критически важным для проектирования эффективных сетей. Данный анализ направлен на детальное рассмотрение этих технологий, начиная с атомарного уровня взаимодействия сигнала со средой и заканчивая практическими рекомендациями по их применению в реальных условиях.</p>
+            
+            <div class="highlight">
+                <h3>Цель исследования</h3>
+                <p>Дать комплексное представление о принципах работы, преимуществах, ограничениях и оптимальных сферах применения медных и оптических линий связи, предоставив инженерам и специалистам по сетям инструменты для принятия обоснованных технических решений.</p>
+            </div>
+        </section>
+
+        <!-- Copper Lines -->
+        <section id="copper" class="section">
+            <h2><i class="fas fa-bolt"></i> Медные линии связи: физика электронов в упряжке</h2>
+            
+            <h3>Физический принцип и конструкция</h3>
+            <p>Передача данных осуществляется посредством изменения <strong>напряжения или силы тока</strong> в металлическом проводнике (обычно медном) во времени. Цифровая информация кодируется в этих изменениях с помощью сложных схем модуляции, таких как PAM-16 (амплитудная модуляция с 16 уровнями импульсов), используемая в стандарте 10GBASE-T.</p>
+            
+            <h3>Ключевой конструктивный элемент — скручивание пар (Twisted Pair)</h3>
+            <p>Скручивание двух изолированных проводников в пару — это фундаментальный прием борьбы с электромагнитными помехами. Принцип работы этого метода заключается в том, что внешняя электромагнитная помеха наводит идентичный паразитный сигнал в обоих проводах пары. На приемном конце дифференциальный усилитель сравнивает напряжение между двумя проводами и вычитает общий для них шум, восстанавливая таким образом исходный полезный сигнал.</p>
+            
+            <div class="highlight">
+                <h4>Типы медных кабелей:</h4>
+                <ul>
+                    <li><strong>UTP (Unshielded Twisted Pair)</strong> — неэкранированная витая пара</li>
+                    <li><strong>FTP (Foiled Twisted Pair)</strong> — с общим экраном из фольги</li>
+                    <li><strong>SFTP (Shielded Foiled Twisted Pair)</strong> — с индивидуальным экранированием каждой пары и общим внешним экраном</li>
+                    <li><strong>Категории:</strong> Cat5e (до 1 Гбит/с), Cat6 (до 10 Гбит/с на 55 м), Cat6A (до 10 Гбит/с на 100 м), Cat8 (до 40 Гбит/с на 30 м)</li>
+                </ul>
+            </div>
+            
+            <h3>Фундаментальное ограничение: скин-эффект</h3>
+            <p>С ростом частоты передаваемого сигнала электрический ток перестает равномерно распределяться по сечению проводника и вытесняется к его поверхности. Это приводит к эффективному уменьшению площади поперечного сечения, доступной для тока, что резко увеличивает сопротивление и, как следствие, затухание сигнала. Именно скин-эффект является главным барьером, ограничивающим максимальную частоту, а значит и скорость передачи данных, а также дистанцию для медных кабелей.</p>
+            
+            <div class="analogy">
+                <h4><i class="fas fa-lightbulb"></i> Простая аналогия:</h4>
+                <p>Представьте попытку вести разговор через две длинные металлические трубки в шумном промышленном цеху. Полезный голос (сигнал) ослабевает с расстоянием, а гул станков (электромагнитные помехи) проникает в трубки. Чем быстрее и сложнее речь (выше скорость передачи), тем труднее разобрать слова на другом конце. Скручивание трубок помогает уменьшить влияние внешнего шума.</p>
+            </div>
+        </section>
+
+        <!-- Fiber Lines -->
+        <section id="fiber" class="section">
+            <h2><i class="fas fa-wave-square"></i> Оптические линии связи: свет в невидимом русле</h2>
+            
+            <h3>Физический принцип: полное внутреннее отражение</h3>
+            <p>В основе лежит управление светом на границе двух сред. Оптическое волокно состоит из сердцевины (core) из сверхчистого кварцевого стекла с высоким показателем преломления, окруженной оболочкой (cladding) с более низким показателем преломления.</p>
+            
+            <div class="visualization">
+                <h3>Структура оптического волокна</h3>
+                <div class="fiber-structure">
+                    <div class="fiber-part">
+                        <div class="core">Сердцевина</div>
+                        <p>9-50 мкм, высокий показатель преломления</p>
+                    </div>
+                    <div class="fiber-part">
+                        <div class="cladding">Оболочка</div>
+                        <p>125 мкм, низкий показатель преломления</p>
+                    </div>
+                    <div class="fiber-part">
+                        <div class="coating">Защитное покрытие</div>
+                        <p>250 мкм, механическая защита</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Типы волокон: один путь или много?</h3>
+            <p><strong>Многомодовое волокно (MMF)</strong> имеет широкую сердцевину (50 или 62.5 микрона), что позволяет световым лучам (модам) распространяться по множеству различных траекторий. Разница во времени прихода лучей вызывает <strong>межмодовую дисперсию</strong>, ограничивая дальность (~550 м для 10 Гбит/с).</p>
+            <p><strong>Одномодовое волокно (SMF)</strong> имеет сердцевину всего 9 микрон, что сравнимо с длиной волны света. Распространяется только одна, фундаментальная мода, что позволяет передавать сигнал на сотни километров без регенерации.</p>
+            
+            <h3>Окна прозрачности: почему свет не гаснет</h3>
+            <p>Это диапазоны длин волн инфракрасного света, в которых затухание сигнала при прохождении через кварцевое стекло минимально. Затухание складывается из рэлеевского рассеяния и поглощения. Современное «сухое» волокно имеет единое сверхширокое окно прозрачности (1260–1675 нм).</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Диапазон</th>
+                        <th>Длины волн</th>
+                        <th>Затухание</th>
+                        <th>Применение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>O-band (Original)</td>
+                        <td>1260–1360 нм</td>
+                        <td>~0.4 дБ/км</td>
+                        <td>Первое окно, нулевая дисперсия на 1310 нм</td>
+                    </tr>
+                    <tr>
+                        <td>C-band (Conventional)</td>
+                        <td>1530–1565 нм</td>
+                        <td>~0.18-0.25 дБ/км</td>
+                        <td>Магистральные линии, DWDM, минимальное затухание</td>
+                    </tr>
+                    <tr>
+                        <td>L-band (Long)</td>
+                        <td>1565–1625 нм</td>
+                        <td>~0.22-0.3 дБ/км</td>
+                        <td>Расширение для DWDM систем</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="analogy">
+                <h4><i class="fas fa-lightbulb"></i> Простая аналогия:</h4>
+                <p>Представьте абсолютно прямую, темную и идеально зеркальную внутри трубу, протянутую на многие километры. Луч фонарика, запущенный в один ее конец, достигнет другого с минимальными потерями. Выбор окон прозрачности — это выбор цвета фонарика (инфракрасного, невидимого глазу), который будет испытывать наименьшее сопротивление внутри материала этой трубы.</p>
+            </div>
+        </section>
+
+        <!-- Comparison -->
+        <section id="comparison" class="section">
+            <h2><i class="fas fa-balance-scale"></i> Сравнительный анализ</h2>
+            
+            <h3>Технические характеристики</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Параметр</th>
+                        <th><span class="copper-badge">Медь</span> (Cat6A/Cat8)</th>
+                        <th><span class="fiber-badge">Оптика</span> (Одномодовое)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Принцип передачи</td>
+                        <td>Электрический сигнал (изменение напряжения)</td>
+                        <td>Световой импульс (модуляция интенсивности)</td>
+                    </tr>
+                    <tr>
+                        <td>Скорость передачи</td>
+                        <td>До 40 Гбит/с (Cat8, до 30 м)</td>
+                        <td>От 1 Гбит/с до 100+ Гбит/с на канал, терабиты с DWDM</td>
+                    </tr>
+                    <tr>
+                        <td>Максимальная дальность</td>
+                        <td>Жестко ограничена (100 м для Ethernet)</td>
+                        <td>Сотни километров без регенерации</td>
+                    </tr>
+                    <tr>
+                        <td>Затухание сигнала</td>
+                        <td>Высокое, растет с частотой</td>
+                        <td>Крайне низкое (минимально в C/L-диапазонах)</td>
+                    </tr>
+                    <tr>
+                        <td>Иммунитет к помехам</td>
+                        <td>Низкий, требует экранирования</td>
+                        <td>Абсолютный, не подвержен ЭМ-воздействию</td>
+                    </tr>
+                    <tr>
+                        <td>Безопасность данных</td>
+                        <td>Подвержены пассивному перехвату</td>
+                        <td>Высокая, перехват требует физического вмешательства</td>
+                    </tr>
+                    <tr>
+                        <td>Энергопотребление</td>
+                        <td>Относительно высокое</td>
+                        <td>Существенно ниже на больших дистанциях</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Экономические и эксплуатационные аспекты</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Аспект</th>
+                        <th><span class="copper-badge">Медь</span></th>
+                        <th><span class="fiber-badge">Оптика</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Стоимость кабеля (за метр)</td>
+                        <td><strong>Низкая</strong></td>
+                        <td>От средней до высокой</td>
+                    </tr>
+                    <tr>
+                        <td>Стоимость активного оборудования</td>
+                        <td><strong>Низкая</strong> (встроенные порты)</td>
+                        <td>Высокая (оптические трансиверы, коммутаторы)</td>
+                    </tr>
+                    <tr>
+                        <td>Стоимость монтажа и обслуживания</td>
+                        <td>Низкая (простой обжим, легкий ремонт)</td>
+                        <td>Высокая (дорогое оборудование, квалификация)</td>
+                    </tr>
+                    <tr>
+                        <td>"Будущезащищенность"</td>
+                        <td>Ограничена (нужна замена кабеля)</td>
+                        <td>Высокая (замена оконечного оборудования)</td>
+                    </tr>
+                    <tr>
+                        <td>Совокупная стоимость владения</td>
+                        <td>Часто ниже на коротких дистанциях</td>
+                        <td>Оправдана на средних/длинных дистанциях</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Рекомендации по выбору</h3>
+            <div class="comparison-cards">
+                <div class="card copper">
+                    <h3><i class="fas fa-bolt"></i> Выбирайте медный кабель, если:</h3>
+                    <ul>
+                        <li>Длина линии не превышает 100 м</li>
+                        <li>Цель — подключение рабочих мест, IP-телефонов, камер с PoE</li>
+                        <li>Критически важна низкая совокупная стоимость владения</li>
+                        <li>Нет требований к скорости выше 10 Гбит/с на длинные дистанции</li>
+                        <li>Нужна простота монтажа и обслуживания</li>
+                    </ul>
+                </div>
+                
+                <div class="card fiber">
+                    <h3><i class="fas fa-wave-square"></i> Выбирайте оптический кабель, если:</h3>
+                    <ul>
+                        <li>Требуется передача на расстояние более 100 м</li>
+                        <li>Необходима скорость 10 Гбит/с и выше</li>
+                        <li>Линия проходит через среду с сильными помехами</li>
+                        <li>Требуется высочайший уровень безопасности данных</li>
+                        <li>Вы создаете магистраль или канал между зданиями</li>
+                        <li>Важен запас на будущее развитие сети</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section id="conclusion" class="section">
+            <h2><i class="fas fa-chart-line"></i> Заключение</h2>
+            
+            <p>Технологии медных и оптических линий связи не являются взаимоисключающими, а образуют <strong>симбиоз в иерархической модели сети</strong>. Каждая из них занимает свою оптимальную нишу, определяемую техническими требованиями, экономическими соображениями и условиями эксплуатации.</p>
+            
+            <div class="highlight">
+                <h3>Ключевые выводы:</h3>
+                <ul>
+                    <li><strong>Оптическое волокно</strong> — безальтернативный выбор для магистралей любого уровня, от межконтинентальных кабелей до вертикальных стояков в зданиях. Его преимущества в неограниченной полосе пропускания, огромной дальности, безопасности и устойчивости к помехам делают его незаменимым для основной инфраструктуры.</li>
+                    <li><strong>Медная витая пара</strong> — экономически оптимальное и технически удобное решение для «последних метров». Она идеально подходит для горизонтальной разводки, подключения рабочих мест, устройств с PoE, где требования к дистанции и скорости соответствуют ее возможностям, а низкая совокупная стоимость является решающим фактором.</li>
+                    <li>Современная архитектура сети строится на <strong>оптическом ядре</strong> (высокая производительность, масштабируемость) и <strong>медной периферии</strong> (экономичное подключение конечных устройств).</li>
+                    <li>Выбор технологии всегда представляет собой компромисс между стоимостью, производительностью, дальностью и условиями эксплуатации. Глубокое понимание физических основ и экономики каждой технологии позволяет инженерам создавать инфраструктуру, которая будет эффективно служить годами, эволюционируя вместе с растущими потребностями в скорости и надежности передачи данных.</li>
+                </ul>
+            </div>
+            
+            <p>В эпоху экспоненциального роста объема передаваемых данных, облачных вычислений и Интернета вещей обе технологии будут продолжать развиваться и находить новые области применения. Медь будет эволюционировать в сторону большей энергоэффективности и поддержки более высоких скоростей на коротких дистанциях, а оптика — в сторону увеличения плотности передачи данных и снижения стоимости компонентов. Однако их фундаментальные роли в сетевой иерархии останутся неизменными: оптика как магистраль, медь как доступ.</p>
+        </section>
+
+        <!-- Sources -->
+        <section id="sources" class="section">
+            <h2><i class="fas fa-book"></i> Источники</h2>
+            
+            <ul class="sources-list">
+                <li><strong>Олифер В.Г., Олифер Н.А.</strong> Компьютерные сети. Принципы, технологии, протоколы. – СПб.: Питер, 2016. – 4-е изд.</li>
+                <li><strong>Семенов Ю.А.</strong> Волоконно-оптические подсистемы современных СКС. Стандарты и практика. – М.: ДМК Пресс, 2018.</li>
+                <li><strong>ГОСТ Р 53246-2008</strong> (ИСО/МЭК 11801:2002). Информационная технология. Структурированные кабельные системы. Общие требования.</li>
+                <li><strong>ANSI/TIA-568.2-D.</strong> Balanced Twisted-Pair Telecommunications Cabling and Components Standard. – Telecommunications Industry Association, 2018.</li>
+                <li><strong>ITU-T G.652.</strong> Characteristics of a single-mode optical fibre and cable.</li>
+                <li><strong>Генрих К.</strong> Оптические кабели связи: конструкции, характеристики, применение // Техносфера, 2011.</li>
+                <li>Статьи и технические white papers с образовательного портала компании <strong>Cisco Systems</strong>.</li>
+                <li><strong>Gamers Nexus.</strong> "Does a SHIELDED Ethernet Cable Make a Difference?" YouTube.</li>
+                <li><strong>Crosstalk Solutions.</strong> "Testing 10 Gigabit SFPs: Fiber vs Copper DAC vs RJ45 Transceivers." YouTube.</li>
+                <li><strong>Jeff Geerling.</strong> "How Fast is 400 Gigabit Ethernet?" YouTube.</li>
+            </ul>
+            
+            <div class="highlight">
+                <h3>Дополнительные ресурсы для изучения:</h3>
+                <ul>
+                    <li>IEEE 802.3 Ethernet Working Group</li>
+                    <li>Fiber Optic Association (FOA)</li>
+                    <li>Техническая документация производителей: Corning, CommScope, Belden, Huawei</li>
+                    <li>Онлайн-курсы по сетевым технологиям на Coursera, Udemy, Stepik</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>О проекте</h3>
+                    <p>Данный образовательный ресурс создан для систематизации знаний о технологиях проводной связи. Материал предназначен для студентов технических специальностей, сетевых инженеров и всех интересующихся сетевыми технологиями.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Быстрые ссылки</h3>
+                    <ul class="footer-links">
+                        <li><a href="#introduction">Введение</a></li>
+                        <li><a href="#copper">Медные линии</a></li>
+                        <li><a href="#fiber">Оптические линии</a></li>
+                        <li><a href="#comparison">Сравнительный анализ</a></li>
+                        <li><a href="#conclusion">Заключение</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p>Для обратной связи и предложений:</p>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> info@network-analysis.ru</li>
+                        <li><i class="fas fa-phone"></i> +7 (XXX) XXX-XX-XX</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Москва, ул. Техническая, д. 10</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Сравнительный анализ медных и оптических линий связи. Все права защищены.</p>
+                <p>Материал может быть использован в образовательных целях с указанием источника.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Back to top button visibility
+        const backToTopButton = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if(window.pageYOffset > 300) {
+                backToTopButton.style.display = 'flex';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+        
+        // Highlight current section in navigation
+        const sections = document.querySelectorAll('.section');
+        const navItems = document.querySelectorAll('.nav-links a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if(pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if(item.getAttribute('href') === `#${current}`) {
+                    item.classList.add('active');
+                    item.style.backgroundColor = 'rgba(255,255,255,0.2)';
+                } else {
+                    item.style.backgroundColor = '';
+                }
+            });
+        });
+        
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(section);
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Trigger initial animation for first section
+            const firstSection = document.querySelector('.section');
+            if(firstSection) {
+                firstSection.style.opacity = '1';
+                firstSection.style.transform = 'translateY(0)';
+            }
+        });
+    </script>
+</body>
+</html>
